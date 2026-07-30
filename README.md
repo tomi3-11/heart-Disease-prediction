@@ -25,13 +25,23 @@ The project follows a structured development process, beginning with understandi
 
 ```text
 .
+├── Backend
+│   └── docs.md
 ├── datasets
 │   └── heart_cleaned.csv
 ├── documentation
+├── Documentation
+│   └── docs.md
+├── Frontend
+│   └── docs.md
 ├── notebooks
 │   ├── heart_disease_annotated.ipynb
 │   └── random_forest_model.joblib
-└── README.md
+├── README.md
+└── requirements.txt
+
+7 directories, 8 files
+
 ```
 
 ### Directories

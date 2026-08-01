@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# stop and remove the containers
+docker stop heart && docker rm heart

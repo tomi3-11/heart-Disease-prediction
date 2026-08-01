@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.ml.preprocessing import preprocess
+from app.ml.predictor import predict
 from app.ml.model_loader import (
     load_artifacts,
     get_model,
@@ -59,3 +60,24 @@ def debug_encoders():
         result[name] = encoder.classes_.tolist()
 
     return result
+
+
+@app.get("/test-prediction")
+def test_prediction():
+    sample = {
+        "Age": 40,
+        "Sex": "M",
+        "ChestPainType": "ATA",
+        "RestingBP": 120,
+        "Cholesterol": 250,
+        "FastingBS": 0,
+        "RestingECG": "Normal",
+        "MaxHR": 170,
+        "ExerciseAngina": "N",
+        "Oldpeak": 0.0,
+        "ST_Slope": "Up",
+    }
+
+    processed = preprocess(sample)
+
+    return predict(processed)

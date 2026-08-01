@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# stop and remove related containers
+docker stop heart && docker rm heart
+
+# Build the image
+docker build -t heart .
+
+# run the docker container
+docker run -d -p 8000:8000 --name heart heart
+
+

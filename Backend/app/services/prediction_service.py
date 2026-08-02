@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
+from app.ml.explainer import explain
+
 from app.models.patient import Patient
 from app.models.prediction import Prediction
 
@@ -32,11 +34,14 @@ def make_prediction(db: Session, patient_id: int):
 
     result = predict(features)
 
+    shap_values = explain(features)
+
     db_prediction = Prediction(
         patient_id=patient.id,
         prediction=result["prediction"],
         probability=result["probability"],
         input_snapshot=patient_data,
+        shap_values=shap_values,
     )
 
     db.add(db_prediction)

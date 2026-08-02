@@ -53,7 +53,11 @@ def login(
         )
 
     token = create_access_token(
-        {"sub": str(user.id)}
+        {
+            "sub": str(user.id),
+            "email": user.email,
+            "role": user.role,
+        }
     )
 
     return {

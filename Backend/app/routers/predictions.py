@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.models.user import User
 
 from app.db.dependencies import get_db
+from app.services.auth_service import get_current_user
 
 from app.schemas.prediction import (
     PredictionRequest,
@@ -24,6 +26,7 @@ router = APIRouter(
 def create_prediction(
     request: PredictionRequest,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     prediction = make_prediction(
         db,

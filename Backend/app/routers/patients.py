@@ -1,6 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.core.permissions import require_role
+
+from app.models.user import User
+from app.services.auth_service import get_current_user
+
 from app.db.dependencies import get_db
 from app.schemas.patient import PatientCreate, PatientResponse
 from app.services.patient_service import (
@@ -18,7 +23,11 @@ router = APIRouter(
 
 
 @router.post("/", response_model=PatientResponse)
-def create(patient: PatientCreate, db: Session = Depends(get_db)):
+def create(
+        patient: PatientCreate,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user),
+    ):
     return create_patient(db, patient)
 
 
@@ -44,6 +53,7 @@ def update(
     patient_id: int,
     patient: PatientCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     updated_patient = update_patient(db, patient_id, patient)
 
@@ -60,6 +70,7 @@ def update(
 def delete(
     patient_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_role("admin")),
 ):
     deleted = delete_patient(db, patient_id)
 

@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -8,7 +9,4 @@ FEATURE_PATH = BASE_DIR / "ml_artifacts" / "feature_order.joblib"
 
 MODEL_VERSION = "1.0.0"
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg://postgres:password@localhost:5432/heart_disease"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")

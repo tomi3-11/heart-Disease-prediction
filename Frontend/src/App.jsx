@@ -4,6 +4,8 @@ import PredictionForm from './components/PredictionForm';
 import ResultCard from './components/ResultCard';
 import AuthModal from './components/AuthModal';
 import './App.css';
+import { createPatient } from "./api/patients";
+import { createPrediction } from "./api/predictions";
 
 function App() {
   const [result, setResult] = useState(null);
@@ -33,52 +35,13 @@ function App() {
     setIsLoading(true);
     
     try {
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      
-      // Step 1: Create Patient
-      const patientResponse = await fetch(`${baseUrl}/patients/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });
-      
-      if (!patientResponse.ok) {
-        if (patientResponse.status === 401) {
-          handleLogout();
-          setIsAuthOpen(true);
-          throw new Error('Session expired. Please log in again.');
-        }
-        const errData = await patientResponse.json();
-        throw new Error(errData.detail || 'Failed to create patient record');
-      }
-      
-      const patientData = await patientResponse.json();
-      
-      // Step 2: Request Prediction
-      const predictionResponse = await fetch(`${baseUrl}/predictions/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ patient_id: patientData.id })
-      });
+        const patientData = await createPatient(formData);
+        const predictionData = await createPrediction(patientData.id);      
 
-      if (!predictionResponse.ok) {
-        const errData = await predictionResponse.json();
-        throw new Error(errData.detail || 'Failed to generate prediction');
-      }
-
-      const predictionData = await predictionResponse.json();
-      
-      setResult({
-        prediction: predictionData.prediction,
-        probability: predictionData.probability
-      });
-      
+        setResult({
+            prediction: predictionData.prediction,
+            probability: predictionData.probability,
+        });
     } catch (error) {
       console.error("Prediction error:", error);
       alert(error.message);

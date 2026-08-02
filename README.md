@@ -197,22 +197,77 @@ Planned
 
 ---
 
-# Getting Started
+## Getting Started
 
 ## Clone the repository
 
 ```bash
-# for ssh
+# SSH
 git clone git@github.com:tomi3-11/heart-Disease-prediction.git
 
-# for http
+# HTTPS
 git clone https://github.com/tomi3-11/heart-Disease-prediction.git
 
 cd heart-Disease-prediction
 ```
-> NOTE: Use Anaconda Navigator for better notebook developement for the ML part of the project. [Anaconda Navogator](https://www.anaconda.com/products/navigator)
 
-## Create a virtual environment
+> **Note:** Anaconda Navigator is recommended for the machine learning notebooks. It is not required for the backend application.
+
+---
+
+## Repository Components
+
+| Component | Description |
+|-----------|-------------|
+| `notebooks/` | Machine learning development, experimentation, and model training |
+| `Backend/` | FastAPI backend API |
+| `Frontend/` | Frontend application |
+| `datasets/` | Datasets used during development |
+| `documentation/` | Project documentation |
+
+---
+
+# Backend Setup
+
+The backend can be run using either Docker or a local Python environment.
+
+## Option 1 — Docker (Recommended)
+
+```bash
+cd Backend
+
+docker compose up --build
+```
+
+The backend will be available at:
+
+```
+http://localhost:8000
+```
+
+Swagger UI:
+
+```
+http://localhost:8000/docs
+```
+
+For additional backend documentation, see:
+
+```
+Backend/README.md
+```
+
+---
+
+## Option 2 — Local Installation
+
+Navigate to the backend directory.
+
+```bash
+cd Backend
+```
+
+Create a virtual environment.
 
 ```bash
 python -m venv .venv
@@ -230,12 +285,78 @@ Windows
 .venv\Scripts\activate
 ```
 
-## Install dependencies
+Install the dependencies.
 
 ```bash
 pip install -r requirements.txt
 ```
 
+Copy the example environment file.
+
+Linux/macOS
+
+```bash
+cp .env.example .env
+```
+
+Windows
+
+```cmd
+copy .env.example .env
+```
+
+Update the values in `.env` as required.
+
+Run the application.
+
+```bash
+uvicorn app.main:app --reload
+```
+
+---
+
+# Machine Learning Environment
+
+Install the project dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+Open the notebook.
+
+```bash
+jupyter notebook
+```
+
+or
+
+```bash
+jupyter lab
+```
+
+The notebook used for model development is located at:
+
+```
+notebooks/heart_disease_annotated.ipynb
+```
+
+---
+
+# Documentation
+
+Additional documentation is available in the following directories.
+
+```
+Backend/
+    README.md
+    API.md
+    ARCHITECTURE.md
+
+documentation/
+
+Frontend/
+```
 ---
 
 # Contributing

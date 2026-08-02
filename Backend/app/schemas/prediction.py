@@ -1,19 +1,20 @@
 from pydantic import BaseModel
+from datetime import datetime
+
 
 class PredictionRequest(BaseModel):
-    Age: int
-    Sex: str
-    ChestPainType: str
-    RestingBP: int
-    Cholesterol: int
-    FastingBS: int
-    RestingECG: str
-    MaxHR: int
-    ExerciseAngina: str
-    Oldpeak: float
-    ST_Slope: str
+    patient_id: int
 
 
 class PredictionResponse(BaseModel):
+    id: int
+    patient_id: int
     prediction: int
     probability: float
+    input_snapshot: dict
+    created_at: datetime
+    shap_values: list[float]
+
+    model_config = {
+        "from_attributes": True
+    }

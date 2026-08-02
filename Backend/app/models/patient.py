@@ -1,5 +1,5 @@
 from sqlalchemy import Integer, String, Float
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 
@@ -29,3 +29,8 @@ class Patient(Base):
     oldpeak: Mapped[float] = mapped_column(Float)
 
     st_slope: Mapped[str] = mapped_column(String(10))
+    predictions = relationship(
+        "Prediction",
+        back_populates="patient",
+        cascade="all, delete-orphan",
+    )

@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, UTC
-from jose import jwt
+from jose import jwt, JWTError
 from app.core.config import (
     ALGORITHM,
     SECRET_KEY,
@@ -40,3 +40,17 @@ def verify_password(
         plain_password,
         hashed_password,
     )
+
+
+def decode_access_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM],
+        )
+
+        return payload
+
+    except JWTError:
+        return None

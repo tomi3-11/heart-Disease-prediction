@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class PredictionRequest(BaseModel):
@@ -10,6 +11,8 @@ class PredictionResponse(BaseModel):
     patient_id: int
     prediction: int
     probability: float
+    input_snapshot: dict
+    created_at: datetime
 
     model_config = {
         "from_attributes": True

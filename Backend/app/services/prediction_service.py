@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 from app.models.patient import Patient
 from app.models.prediction import Prediction
@@ -43,3 +44,18 @@ def make_prediction(db: Session, patient_id: int):
     db.refresh(db_prediction)
 
     return db_prediction
+
+
+def get_predictions(db: Session):
+    statement = select(Prediction).order_by(Prediction.created_at.desc())
+    return db.scalars(statement).all()
+
+
+def get_patient_predictions(db: Session, patient_id: int):
+    statement = (
+        select(Prediction)
+        .where(Prediction.patient_id == patient_id)
+        .order_by(Prediction.created_at.desc())
+    )
+
+    return db.scalars(statement).all()

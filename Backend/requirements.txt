@@ -5,3 +5,7 @@ pandas
 numpy
 joblib
 python-multipart
+
+sqlalchemy
+psycopg[binary]
+alembic

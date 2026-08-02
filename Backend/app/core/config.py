@@ -7,3 +7,8 @@ ENCODER_PATH = BASE_DIR / "ml_artifacts" / "label_encoders.joblib"
 FEATURE_PATH = BASE_DIR / "ml_artifacts" / "feature_order.joblib"
 
 MODEL_VERSION = "1.0.0"
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg://postgres:password@localhost:5432/heart_disease"
+)

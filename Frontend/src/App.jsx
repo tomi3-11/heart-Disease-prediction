@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import PredictionForm from './components/PredictionForm';
 import ResultCard from './components/ResultCard';
@@ -9,33 +9,79 @@ function App() {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    const email = localStorage.getItem('user_email');
+    if (email) setUserEmail(email);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('access_token');
+    setUserEmail(null);
+  };
 
   const handlePrediction = async (formData) => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      alert("Please sign in to make a prediction.");
+      setIsAuthOpen(true);
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      // TODO: BACKEND INTEGRATION
-      // 1. Replace the setTimeout below with an actual fetch/axios call to your Node.js API
-      // e.g., const response = await fetch('http://localhost:3000/api/predict', { method: 'POST', body: JSON.stringify(formData) })
-      // 2. Parse the response
-      // e.g., const data = await response.json()
-      // 3. Call setResult with the backend's prediction (1 = high risk, 0 = low risk) and probability
-      // e.g., setResult({ prediction: data.prediction, probability: data.probability })
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       
-      // --- SIMULATED API CALL (REMOVE THIS) ---
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Step 1: Create Patient
+      const patientResponse = await fetch(`${baseUrl}/patients/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
       
-      const score = (formData.Age / 100) + (formData.Cholesterol / 500) + (formData.MaxHR < 120 ? 0.3 : 0);
-      const isHighRisk = score > 1.2;
+      if (!patientResponse.ok) {
+        if (patientResponse.status === 401) {
+          handleLogout();
+          setIsAuthOpen(true);
+          throw new Error('Session expired. Please log in again.');
+        }
+        const errData = await patientResponse.json();
+        throw new Error(errData.detail || 'Failed to create patient record');
+      }
+      
+      const patientData = await patientResponse.json();
+      
+      // Step 2: Request Prediction
+      const predictionResponse = await fetch(`${baseUrl}/predictions/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ patient_id: patientData.id })
+      });
+
+      if (!predictionResponse.ok) {
+        const errData = await predictionResponse.json();
+        throw new Error(errData.detail || 'Failed to generate prediction');
+      }
+
+      const predictionData = await predictionResponse.json();
       
       setResult({
-        prediction: isHighRisk ? 1 : 0,
-        probability: isHighRisk ? 0.85 : 0.15
+        prediction: predictionData.prediction,
+        probability: predictionData.probability
       });
-      // ----------------------------------------
       
     } catch (error) {
       console.error("Prediction error:", error);
+      alert(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -43,8 +89,16 @@ function App() {
 
   return (
     <div className="ameba-layout">
-      <Header onSignInClick={() => setIsAuthOpen(true)} />
-      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <Header 
+        onSignInClick={() => setIsAuthOpen(true)} 
+        userEmail={userEmail} 
+        onLogout={handleLogout} 
+      />
+      <AuthModal 
+        isOpen={isAuthOpen} 
+        onClose={() => setIsAuthOpen(false)} 
+        onLogin={(email) => setUserEmail(email)}
+      />
       
       <section className="hero-section">
         <div className="particle-sphere"></div>

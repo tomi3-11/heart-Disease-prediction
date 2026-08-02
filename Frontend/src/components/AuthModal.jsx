@@ -1,9 +1,53 @@
 import React, { useState } from 'react';
 
-const AuthModal = ({ isOpen, onClose }) => {
+const AuthModal = ({ isOpen, onClose, onLogin }) => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [error, setError] = useState('');
 
   if (!isOpen) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    
+    const url = isSignUp 
+      ? `${import.meta.env.VITE_API_URL}/auth/register` 
+      : `${import.meta.env.VITE_API_URL}/auth/login`;
+
+    const body = isSignUp 
+      ? { email, password, role: 'doctor' }
+      : { email, password };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.detail || 'Authentication failed');
+      }
+
+      if (isSignUp) {
+        // If sign up is successful, switch to login
+        setIsSignUp(false);
+        setError('Account created. Please log in.');
+      } else {
+        // On successful login, save token
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('user_email', email);
+        if (onLogin) onLogin(email);
+        onClose();
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -18,19 +62,9 @@ const AuthModal = ({ isOpen, onClose }) => {
           </button>
         </div>
         
-        <form className="auth-form" onSubmit={(e) => {
-          e.preventDefault();
-          // TODO: BACKEND INTEGRATION
-          // Handle Authentication here (fetch to Node.js backend)
-          // const email = e.target.email.value;
-          // const password = e.target.password.value;
-          // if (isSignUp) { 
-          //    await fetch('/api/signup', ...) 
-          // } else { 
-          //    await fetch('/api/login', ...) 
-          // }
-          onClose();
-        }}>
+        {error && <div style={{ color: 'var(--danger-red)', marginBottom: '1rem', fontSize: '14px' }}>{error}</div>}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email Address</label>
             <input type="email" id="email" name="email" required />
@@ -48,7 +82,7 @@ const AuthModal = ({ isOpen, onClose }) => {
 
         <div className="auth-toggle">
           {isSignUp ? 'Already have an account? ' : 'Need an account? '}
-          <span className="auth-toggle-link" onClick={() => setIsSignUp(!isSignUp)}>
+          <span className="auth-toggle-link" onClick={() => { setIsSignUp(!isSignUp); setError(''); }}>
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </span>
         </div>

@@ -2,22 +2,25 @@ import React, { useState } from 'react';
 
 const PredictionForm = ({ onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
-    Age: 50,
-    Sex: 1,
-    ChestPainType: 0,
-    RestingBP: 120,
-    Cholesterol: 200,
-    FastingBS: 0,
-    RestingECG: 0,
-    MaxHR: 150,
-    ExerciseAngina: 0,
-    Oldpeak: 0.0,
-    ST_Slope: 1
+    age: 50,
+    sex: "M",
+    chest_pain_type: "TA",
+    resting_bp: 120,
+    cholesterol: 200,
+    fasting_bs: 0,
+    resting_ecg: "Normal",
+    max_hr: 150,
+    exercise_angina: "N",
+    oldpeak: 0.0,
+    st_slope: "Flat"
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: Number(value) }));
+    const { name, value, type } = e.target;
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'number' || name === 'fasting_bs' ? Number(value) : value 
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -32,79 +35,79 @@ const PredictionForm = ({ onSubmit, isLoading }) => {
         <div className="form-grid">
           
           <div className="input-group">
-            <label htmlFor="Age">Age</label>
-            <input type="number" id="Age" name="Age" value={formData.Age} onChange={handleChange} required min="0" max="120" />
+            <label htmlFor="age">Age</label>
+            <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required min="0" max="120" />
           </div>
 
           <div className="input-group">
-            <label htmlFor="Sex">Sex</label>
-            <select id="Sex" name="Sex" value={formData.Sex} onChange={handleChange}>
-              <option value={1}>Male</option>
-              <option value={0}>Female</option>
+            <label htmlFor="sex">Sex</label>
+            <select id="sex" name="sex" value={formData.sex} onChange={handleChange}>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
             </select>
           </div>
 
           <div className="input-group">
-            <label htmlFor="ChestPainType">Chest Pain Type</label>
-            <select id="ChestPainType" name="ChestPainType" value={formData.ChestPainType} onChange={handleChange}>
-              <option value={0}>Typical Angina</option>
-              <option value={1}>Atypical Angina</option>
-              <option value={2}>Non-anginal Pain</option>
-              <option value={3}>Asymptomatic</option>
+            <label htmlFor="chest_pain_type">Chest Pain Type</label>
+            <select id="chest_pain_type" name="chest_pain_type" value={formData.chest_pain_type} onChange={handleChange}>
+              <option value="TA">Typical Angina</option>
+              <option value="ATA">Atypical Angina</option>
+              <option value="NAP">Non-anginal Pain</option>
+              <option value="ASY">Asymptomatic</option>
             </select>
           </div>
 
           <div className="input-group">
-            <label htmlFor="RestingBP">Resting BP (mm/Hg)</label>
-            <input type="number" id="RestingBP" name="RestingBP" value={formData.RestingBP} onChange={handleChange} required min="0" />
+            <label htmlFor="resting_bp">Resting BP (mm/Hg)</label>
+            <input type="number" id="resting_bp" name="resting_bp" value={formData.resting_bp} onChange={handleChange} required min="0" />
           </div>
 
           <div className="input-group">
-            <label htmlFor="Cholesterol">Serum Cholesterol (mg/dl)</label>
-            <input type="number" id="Cholesterol" name="Cholesterol" value={formData.Cholesterol} onChange={handleChange} required min="0" />
+            <label htmlFor="cholesterol">Serum Cholesterol (mg/dl)</label>
+            <input type="number" id="cholesterol" name="cholesterol" value={formData.cholesterol} onChange={handleChange} required min="0" />
           </div>
 
           <div className="input-group">
-            <label htmlFor="FastingBS">Fasting Blood Sugar &gt; 120 mg/dl</label>
-            <select id="FastingBS" name="FastingBS" value={formData.FastingBS} onChange={handleChange}>
+            <label htmlFor="fasting_bs">Fasting Blood Sugar &gt; 120 mg/dl</label>
+            <select id="fasting_bs" name="fasting_bs" value={formData.fasting_bs} onChange={handleChange}>
               <option value={0}>False</option>
               <option value={1}>True</option>
             </select>
           </div>
 
           <div className="input-group">
-            <label htmlFor="RestingECG">Resting ECG Results</label>
-            <select id="RestingECG" name="RestingECG" value={formData.RestingECG} onChange={handleChange}>
-              <option value={0}>Normal</option>
-              <option value={1}>ST-T Wave Abnormality</option>
-              <option value={2}>LV Hypertrophy</option>
+            <label htmlFor="resting_ecg">Resting ECG Results</label>
+            <select id="resting_ecg" name="resting_ecg" value={formData.resting_ecg} onChange={handleChange}>
+              <option value="Normal">Normal</option>
+              <option value="ST">ST-T Wave Abnormality</option>
+              <option value="LVH">LV Hypertrophy</option>
             </select>
           </div>
 
           <div className="input-group">
-            <label htmlFor="MaxHR">Max Heart Rate Achieved</label>
-            <input type="number" id="MaxHR" name="MaxHR" value={formData.MaxHR} onChange={handleChange} required min="60" max="220" />
+            <label htmlFor="max_hr">Max Heart Rate Achieved</label>
+            <input type="number" id="max_hr" name="max_hr" value={formData.max_hr} onChange={handleChange} required min="60" max="220" />
           </div>
 
           <div className="input-group">
-            <label htmlFor="ExerciseAngina">Exercise Induced Angina</label>
-            <select id="ExerciseAngina" name="ExerciseAngina" value={formData.ExerciseAngina} onChange={handleChange}>
-              <option value={0}>No</option>
-              <option value={1}>Yes</option>
+            <label htmlFor="exercise_angina">Exercise Induced Angina</label>
+            <select id="exercise_angina" name="exercise_angina" value={formData.exercise_angina} onChange={handleChange}>
+              <option value="N">No</option>
+              <option value="Y">Yes</option>
             </select>
           </div>
 
           <div className="input-group">
-            <label htmlFor="Oldpeak">ST Depression (Oldpeak)</label>
-            <input type="number" step="0.1" id="Oldpeak" name="Oldpeak" value={formData.Oldpeak} onChange={handleChange} required />
+            <label htmlFor="oldpeak">ST Depression (Oldpeak)</label>
+            <input type="number" step="0.1" id="oldpeak" name="oldpeak" value={formData.oldpeak} onChange={handleChange} required />
           </div>
 
           <div className="input-group">
-            <label htmlFor="ST_Slope">Peak Exercise ST Segment</label>
-            <select id="ST_Slope" name="ST_Slope" value={formData.ST_Slope} onChange={handleChange}>
-              <option value={0}>Upsloping</option>
-              <option value={1}>Flat</option>
-              <option value={2}>Downsloping</option>
+            <label htmlFor="st_slope">Peak Exercise ST Segment</label>
+            <select id="st_slope" name="st_slope" value={formData.st_slope} onChange={handleChange}>
+              <option value="Up">Upsloping</option>
+              <option value="Flat">Flat</option>
+              <option value="Down">Downsloping</option>
             </select>
           </div>
 

@@ -1,9 +1,11 @@
 from pydantic import BaseModel, EmailStr, Field
+from typing import Literal
 
 
 class UserRegister(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8)
+    role: Literal["admin", "doctor", "nurse"] = "doctor"
 
 
 class UserLogin(BaseModel):
@@ -14,6 +16,7 @@ class UserLogin(BaseModel):
 class UserResponse(BaseModel):
     id: int
     email: EmailStr
+    role: str
 
     model_config = {
         "from_attributes": True

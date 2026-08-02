@@ -1,0 +1,225 @@
+import requests
+
+API_URL = "http://localhost:8000/patients"
+
+patients = [
+    {
+        "id": 1,
+        "age": 45,
+        "sex": "M",
+        "chest_pain_type": "ATA",
+        "resting_bp": 130,
+        "cholesterol": 210,
+        "fasting_bs": 0,
+        "resting_ecg": "Normal",
+        "max_hr": 165,
+        "exercise_angina": "N",
+        "oldpeak": 0.5,
+        "st_slope": "Up"
+    },
+    {
+        "id": 2,
+        "age": 61,
+        "sex": "F",
+        "chest_pain_type": "NAP",
+        "resting_bp": 145,
+        "cholesterol": 255,
+        "fasting_bs": 1,
+        "resting_ecg": "ST",
+        "max_hr": 138,
+        "exercise_angina": "Y",
+        "oldpeak": 1.8,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 3,
+        "age": 52,
+        "sex": "M",
+        "chest_pain_type": "ASY",
+        "resting_bp": 150,
+        "cholesterol": 290,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 122,
+        "exercise_angina": "Y",
+        "oldpeak": 2.4,
+        "st_slope": "Down"
+    },
+    {
+        "id": 4,
+        "age": 38,
+        "sex": "F",
+        "chest_pain_type": "TA",
+        "resting_bp": 118,
+        "cholesterol": 185,
+        "fasting_bs": 0,
+        "resting_ecg": "Normal",
+        "max_hr": 178,
+        "exercise_angina": "N",
+        "oldpeak": 0.0,
+        "st_slope": "Up"
+    },
+    {
+        "id": 5,
+        "age": 67,
+        "sex": "M",
+        "chest_pain_type": "ASY",
+        "resting_bp": 160,
+        "cholesterol": 310,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 110,
+        "exercise_angina": "Y",
+        "oldpeak": 3.2,
+        "st_slope": "Down"
+    },
+    {
+        "id": 6,
+        "age": 49,
+        "sex": "F",
+        "chest_pain_type": "ATA",
+        "resting_bp": 126,
+        "cholesterol": 220,
+        "fasting_bs": 0,
+        "resting_ecg": "ST",
+        "max_hr": 158,
+        "exercise_angina": "N",
+        "oldpeak": 0.9,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 7,
+        "age": 58,
+        "sex": "M",
+        "chest_pain_type": "NAP",
+        "resting_bp": 140,
+        "cholesterol": 245,
+        "fasting_bs": 1,
+        "resting_ecg": "Normal",
+        "max_hr": 146,
+        "exercise_angina": "Y",
+        "oldpeak": 1.5,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 8,
+        "age": 42,
+        "sex": "M",
+        "chest_pain_type": "ATA",
+        "resting_bp": 124,
+        "cholesterol": 198,
+        "fasting_bs": 0,
+        "resting_ecg": "Normal",
+        "max_hr": 172,
+        "exercise_angina": "N",
+        "oldpeak": 0.3,
+        "st_slope": "Up"
+    },
+    {
+        "id": 9,
+        "age": 71,
+        "sex": "F",
+        "chest_pain_type": "ASY",
+        "resting_bp": 155,
+        "cholesterol": 275,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 105,
+        "exercise_angina": "Y",
+        "oldpeak": 2.9,
+        "st_slope": "Down"
+    },
+    {
+        "id": 10,
+        "age": 55,
+        "sex": "M",
+        "chest_pain_type": "NAP",
+        "resting_bp": 135,
+        "cholesterol": 235,
+        "fasting_bs": 0,
+        "resting_ecg": "ST",
+        "max_hr": 150,
+        "exercise_angina": "N",
+        "oldpeak": 1.1,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 11,
+        "age": 64,
+        "sex": "M",
+        "chest_pain_type": "ASY",
+        "resting_bp": 150,
+        "cholesterol": 298,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 112,
+        "exercise_angina": "Y",
+        "oldpeak": 3.5,
+        "st_slope": "Down"
+    },
+    {
+        "id": 12,
+        "age": 59,
+        "sex": "F",
+        "chest_pain_type": "ASY",
+        "resting_bp": 142,
+        "cholesterol": 267,
+        "fasting_bs": 1,
+        "resting_ecg": "ST",
+        "max_hr": 118,
+        "exercise_angina": "Y",
+        "oldpeak": 2.7,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 13,
+        "age": 70,
+        "sex": "M",
+        "chest_pain_type": "ASY",
+        "resting_bp": 165,
+        "cholesterol": 325,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 96,
+        "exercise_angina": "Y",
+        "oldpeak": 4.1,
+        "st_slope": "Down"
+    },
+    {
+        "id": 14,
+        "age": 62,
+        "sex": "M",
+        "chest_pain_type": "NAP",
+        "resting_bp": 148,
+        "cholesterol": 281,
+        "fasting_bs": 1,
+        "resting_ecg": "ST",
+        "max_hr": 124,
+        "exercise_angina": "Y",
+        "oldpeak": 2.2,
+        "st_slope": "Flat"
+    },
+    {
+        "id": 15,
+        "age": 68,
+        "sex": "F",
+        "chest_pain_type": "ASY",
+        "resting_bp": 158,
+        "cholesterol": 305,
+        "fasting_bs": 1,
+        "resting_ecg": "LVH",
+        "max_hr": 101,
+        "exercise_angina": "Y",
+        "oldpeak": 3.8,
+        "st_slope": "Down"
+    }
+]
+
+for patient in patients:
+    response = requests.post(API_URL, json=patient)
+
+    if response.ok:
+        print(f"✓ Seeded patient {patient['id']}")
+    else:
+        print(f"✗ Failed to seed patient {patient['id']}: {response.status_code}")
+        print(response.text)

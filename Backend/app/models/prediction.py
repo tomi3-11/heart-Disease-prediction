@@ -27,4 +27,9 @@ class Prediction(Base):
         default=datetime.utcnow,
     )
 
+    shap_values: Mapped[list] = mapped_column(
+        JSON,
+        nullable=False,
+    )
+
     patient = relationship("Patient", back_populates="predictions")

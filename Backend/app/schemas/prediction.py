@@ -13,7 +13,7 @@ class PredictionResponse(BaseModel):
     probability: float
     input_snapshot: dict
     created_at: datetime
-    shap_values: list[float]
+    shap_values: list[list[float]]
 
     model_config = {
         "from_attributes": True

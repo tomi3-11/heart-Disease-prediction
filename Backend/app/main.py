@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.ml.model_loader import load_artifacts
 from app.ml.explainer import load_explainer
 from app.routers.predictions import router as prediction_router
@@ -17,8 +18,17 @@ app = FastAPI(
     version="1.0.0",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.on_event("startup")
 def startup():
+    Base.metadata.create_all(bind=engine)
     load_artifacts()
     load_explainer()
   

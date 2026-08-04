@@ -23,6 +23,7 @@ def create_sample_patient(headers):
     assert response.status_code == 200
     return response.json()
 
+
 def test_create_prediction():
     headers = get_auth_headers()
 

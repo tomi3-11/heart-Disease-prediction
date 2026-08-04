@@ -15,7 +15,7 @@ patients = [
         "max_hr": 165,
         "exercise_angina": "N",
         "oldpeak": 0.5,
-        "st_slope": "Up"
+        "st_slope": "Up",
     },
     {
         "id": 2,
@@ -29,7 +29,7 @@ patients = [
         "max_hr": 138,
         "exercise_angina": "Y",
         "oldpeak": 1.8,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 3,
@@ -43,7 +43,7 @@ patients = [
         "max_hr": 122,
         "exercise_angina": "Y",
         "oldpeak": 2.4,
-        "st_slope": "Down"
+        "st_slope": "Down",
     },
     {
         "id": 4,
@@ -57,7 +57,7 @@ patients = [
         "max_hr": 178,
         "exercise_angina": "N",
         "oldpeak": 0.0,
-        "st_slope": "Up"
+        "st_slope": "Up",
     },
     {
         "id": 5,
@@ -71,7 +71,7 @@ patients = [
         "max_hr": 110,
         "exercise_angina": "Y",
         "oldpeak": 3.2,
-        "st_slope": "Down"
+        "st_slope": "Down",
     },
     {
         "id": 6,
@@ -85,7 +85,7 @@ patients = [
         "max_hr": 158,
         "exercise_angina": "N",
         "oldpeak": 0.9,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 7,
@@ -99,7 +99,7 @@ patients = [
         "max_hr": 146,
         "exercise_angina": "Y",
         "oldpeak": 1.5,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 8,
@@ -113,7 +113,7 @@ patients = [
         "max_hr": 172,
         "exercise_angina": "N",
         "oldpeak": 0.3,
-        "st_slope": "Up"
+        "st_slope": "Up",
     },
     {
         "id": 9,
@@ -127,7 +127,7 @@ patients = [
         "max_hr": 105,
         "exercise_angina": "Y",
         "oldpeak": 2.9,
-        "st_slope": "Down"
+        "st_slope": "Down",
     },
     {
         "id": 10,
@@ -141,7 +141,7 @@ patients = [
         "max_hr": 150,
         "exercise_angina": "N",
         "oldpeak": 1.1,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 11,
@@ -155,7 +155,7 @@ patients = [
         "max_hr": 112,
         "exercise_angina": "Y",
         "oldpeak": 3.5,
-        "st_slope": "Down"
+        "st_slope": "Down",
     },
     {
         "id": 12,
@@ -169,7 +169,7 @@ patients = [
         "max_hr": 118,
         "exercise_angina": "Y",
         "oldpeak": 2.7,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 13,
@@ -183,7 +183,7 @@ patients = [
         "max_hr": 96,
         "exercise_angina": "Y",
         "oldpeak": 4.1,
-        "st_slope": "Down"
+        "st_slope": "Down",
     },
     {
         "id": 14,
@@ -197,7 +197,7 @@ patients = [
         "max_hr": 124,
         "exercise_angina": "Y",
         "oldpeak": 2.2,
-        "st_slope": "Flat"
+        "st_slope": "Flat",
     },
     {
         "id": 15,
@@ -211,8 +211,8 @@ patients = [
         "max_hr": 101,
         "exercise_angina": "Y",
         "oldpeak": 3.8,
-        "st_slope": "Down"
-    }
+        "st_slope": "Down",
+    },
 ]
 
 for patient in patients:

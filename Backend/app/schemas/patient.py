@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
 from typing import Literal
+
+from pydantic import BaseModel, Field
 
 
 class PatientCreate(BaseModel):
@@ -19,6 +20,4 @@ class PatientCreate(BaseModel):
 class PatientResponse(PatientCreate):
     id: int
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}

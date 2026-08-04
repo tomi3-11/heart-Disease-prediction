@@ -1,10 +1,12 @@
+from datetime import UTC, datetime, timedelta
+
+from jose import JWTError, jwt
 from passlib.context import CryptContext
-from datetime import datetime, timedelta, UTC
-from jose import jwt, JWTError
+
 from app.core.config import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
     ALGORITHM,
     SECRET_KEY,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
 )
 
 pwd_context = CryptContext(
@@ -12,12 +14,11 @@ pwd_context = CryptContext(
     deprecated="auto",
 )
 
+
 def create_access_token(data: dict):
     payload = data.copy()
 
-    expire = datetime.now(UTC) + timedelta(
-        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
-    )
+    expire = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     payload.update({"exp": expire})
 

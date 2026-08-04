@@ -1,11 +1,10 @@
 import joblib
 
 from app.core.config import (
-    MODEL_PATH,
     ENCODER_PATH,
     FEATURE_PATH,
+    MODEL_PATH,
 )
-
 
 _model = None
 _label_encoders = None
@@ -34,5 +33,3 @@ def get_label_encoders():
 
 def get_feature_order():
     return _feature_order
-
-

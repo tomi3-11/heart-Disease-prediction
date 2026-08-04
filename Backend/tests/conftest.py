@@ -1,14 +1,12 @@
 import pytest
-
 from fastapi.testclient import TestClient
 
-from app.main import app
 from app.db.base import Base
 from app.db.dependencies import get_db
-
-from tests.database import engine, TestingSessionLocal
-from app.ml.model_loader import load_artifacts
+from app.main import app
 from app.ml.explainer import load_explainer
+from app.ml.model_loader import load_artifacts
+from tests.database import TestingSessionLocal, engine
 
 
 def override_get_db():
@@ -57,6 +55,4 @@ def get_auth_headers(role="doctor"):
 
     token = response.json()["access_token"]
 
-    return {
-        "Authorization": f"Bearer {token}"
-    }
+    return {"Authorization": f"Bearer {token}"}

@@ -1,5 +1,6 @@
 from app.ml.model_loader import get_model
 
+
 def predict(features):
     """
     Make prediction using the trained model.

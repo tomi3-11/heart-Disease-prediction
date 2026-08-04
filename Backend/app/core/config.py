@@ -1,7 +1,7 @@
 from pathlib import Path
-from pydantic_settings import BaseSettings
+
 from pydantic import ConfigDict
-import os
+from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -10,6 +10,7 @@ ENCODER_PATH = BASE_DIR / "ml_artifacts" / "label_encoders.joblib"
 FEATURE_PATH = BASE_DIR / "ml_artifacts" / "feature_order.joblib"
 
 MODEL_VERSION = "1.0.0"
+
 
 class Settings(BaseSettings):
     database_url: str
@@ -26,4 +27,4 @@ SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
-#DATABASE_URL = os.getenv("DATABASE_URL")
+# DATABASE_URL = os.getenv("DATABASE_URL")

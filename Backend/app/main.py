@@ -1,16 +1,22 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.ml.model_loader import load_artifacts
-from app.ml.explainer import load_explainer
-from app.routers.predictions import router as prediction_router
-from app.routers.patients import router as patient_router
-from app.routers.auth import router as auth_router
-from app.db.base import Base
-from app.db.session import engine
-import app.models
 
+import app.models
+from app.ml.explainer import explain, load_explainer
+from app.ml.model_loader import load_artifacts
 from app.ml.preprocessing import preprocess
-from app.ml.explainer import explain
+from app.routers.auth import router as auth_router
+from app.routers.patients import router as patient_router
+from app.routers.predictions import router as prediction_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    load_artifacts()
+    load_explainer()
+    yield
 
 
 app = FastAPI(
@@ -26,16 +32,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def startup():
-    Base.metadata.create_all(bind=engine)
-    load_artifacts()
-    load_explainer()
-  
 
 app.include_router(prediction_router)
 app.include_router(patient_router)
 app.include_router(auth_router)
+
 
 @app.get("/")
 def root():
@@ -60,6 +61,4 @@ def test_shap():
 
     features = preprocess(sample)
 
-    return {
-        "shap_values": explain(features)
-    }
+    return {"shap_values": explain(features)}

@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from datetime import datetime
+
+from pydantic import BaseModel
 
 
 class PredictionRequest(BaseModel):
@@ -15,6 +16,4 @@ class PredictionResponse(BaseModel):
     created_at: datetime
     shap_values: list[list[float]]
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}

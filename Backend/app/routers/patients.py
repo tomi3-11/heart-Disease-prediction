@@ -2,18 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.permissions import require_role
-
-from app.models.user import User
-from app.services.auth_service import get_current_user
-
 from app.db.dependencies import get_db
+from app.models.user import User
 from app.schemas.patient import PatientCreate, PatientResponse
+from app.services.auth_service import get_current_user
 from app.services.patient_service import (
     create_patient,
+    delete_patient,
     get_patient,
     get_patients,
     update_patient,
-    delete_patient,
 )
 
 router = APIRouter(
@@ -24,10 +22,10 @@ router = APIRouter(
 
 @router.post("/", response_model=PatientResponse)
 def create(
-        patient: PatientCreate,
-        db: Session = Depends(get_db),
-        current_user: User = Depends(get_current_user),
-    ):
+    patient: PatientCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
     return create_patient(db, patient)
 
 
@@ -41,12 +39,10 @@ def read_one(patient_id: int, db: Session = Depends(get_db)):
     patient = get_patient(db, patient_id)
 
     if patient is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Patient not found"
-        )
+        raise HTTPException(status_code=404, detail="Patient not found")
 
     return patient
+
 
 @router.put("/{patient_id}", response_model=PatientResponse)
 def update(

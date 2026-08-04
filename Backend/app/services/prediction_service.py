@@ -1,13 +1,11 @@
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.ml.explainer import explain
-
+from app.ml.predictor import predict
+from app.ml.preprocessing import preprocess
 from app.models.patient import Patient
 from app.models.prediction import Prediction
-
-from app.ml.preprocessing import preprocess
-from app.ml.predictor import predict
 
 
 def make_prediction(db: Session, patient_id: int):

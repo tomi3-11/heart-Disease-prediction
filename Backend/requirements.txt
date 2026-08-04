@@ -19,3 +19,7 @@ pydantic
 pydantic-settings
 
 shap
+
+pytest
+pytest-cov
+httpx

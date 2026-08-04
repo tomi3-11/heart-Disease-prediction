@@ -13,6 +13,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        work-directory: Backend
+
     steps:
       - uses: actions/checkout@v4
 

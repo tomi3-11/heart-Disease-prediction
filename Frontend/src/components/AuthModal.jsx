@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { login, register } from "../api/auth"
 
 const AuthModal = ({ isOpen, onClose, onLogin }) => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -21,31 +22,31 @@ const AuthModal = ({ isOpen, onClose, onLogin }) => {
       : { email, password };
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.detail || 'Authentication failed');
-      }
+        let data;
 
-      if (isSignUp) {
-        // If sign up is successful, switch to login
-        setIsSignUp(false);
-        setError('Account created. Please log in.');
-      } else {
-        // On successful login, save token
-        localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('user_email', email);
-        if (onLogin) onLogin(email);
+        if (isSignUp) {
+            await register(email, password);
+            setIsSignUp(false);
+            setError("Account created. Please log in.");
+            return;
+        }
+
+        data = await login(email, password);
+
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("user_email", email);
+
+        if (onLogin) {
+            onLogin(email);
+        }
+
         onClose();
-      }
     } catch (err) {
-      setError(err.message);
+        setError(
+            err.response?.data?.detail ||
+            err.message ||
+            "Authentication failed"
+        );
     }
   };
 

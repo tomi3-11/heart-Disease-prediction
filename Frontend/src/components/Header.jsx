@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = ({ onSignInClick, userEmail, onLogout }) => {
   return (
@@ -7,12 +8,11 @@ const Header = ({ onSignInClick, userEmail, onLogout }) => {
         <div className="logo">Heart Predictor</div>
       </div>
       <div className="ameba-nav-center">
-        <a>Product</a>
-        <a>Customer Types</a>
-        <a>Company</a>
-        <a>Resources</a>
-        <a>Security</a>
-      </div>
+            <a href="/">Home</a>
+            <a href="/#predict">Predict</a>
+            <a href="/#results">Results</a>
+            <a href="/history">History</a>
+        </div>
       <div className="ameba-nav-right">
         {userEmail ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

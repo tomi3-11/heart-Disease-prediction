@@ -18,7 +18,7 @@ const ResultCard = ({ result }) => {
       <div className="stat-label">Risk Assessment Probability</div>
       <div className="stat-value">{(result.probability * 100).toFixed(1)}%</div>
       <div className={`status-tag ${isHighRisk ? 'critical' : 'nominal'}`}>
-        {isHighRisk ? 'HIGH RISK' : 'NOMINAL'}
+        {isHighRisk ? 'Heart Disease Detected' : 'No Heart Disease Detected'}
       </div>
       <p style={{ marginTop: '1rem', fontSize: '14px', color: 'var(--color-slate-body)', lineHeight: '1.5' }}>
         {isHighRisk 
